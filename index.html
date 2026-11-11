@@ -76,7 +76,8 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 
 /* Motor de escenas */
 .escena { position: relative; }
-.fijo { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--papel); }
+.fijo { position: fixed; top: 0; bottom: 0; left: 0; right: 0; max-width: 460px; margin-inline: auto; overflow: hidden; background: var(--papel); z-index: 1; visibility: hidden; }
+#e2, #e3, #e4 { margin-top: -100vh; margin-top: -100svh; }
 .capa { position: absolute; inset: 0; }
 .vis { will-change: opacity, transform; }
 .borde-g { padding-left: var(--gi); padding-right: var(--gd); }
@@ -87,13 +88,19 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 .intro { position: absolute; left: 0; right: 0; top: 72px; display: grid; gap: 10px; }
 .intro > * { min-width: 0; }
 .frase { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 27px; line-height: 1.13; text-wrap: balance; }
+.marca { font-family: var(--f-letrero); font-weight: 700; font-size: 38px; line-height: 1; letter-spacing: .01em; }
+.marca-sub { font-family: var(--f-texto); font-weight: 500; font-size: 16px; line-height: 1.3; color: var(--gris); margin-top: -6px; }
+.bendicion-grande { display: flex; align-items: center; gap: 8px; font-family: var(--f-texto); font-weight: 500; font-size: 17px; color: var(--violeta-texto); margin-top: 4px; }
+.bendicion-grande svg { width: 12px; height: 16px; fill: var(--violeta-texto); flex: none; }
+.frase-clara { font-family: var(--f-texto); font-weight: 500; font-size: 25px; line-height: 1.26; letter-spacing: -.005em; text-wrap: pretty; }
+.frase-clara strong { font-weight: 600; color: var(--violeta-texto); }
 .tablero { display: grid; grid-template-columns: repeat(8, 1fr); gap: 3px; max-width: 300px; }
 .celda { position: relative; aspect-ratio: 4 / 5.2; background: var(--niebla); border: 1px solid var(--linea); border-radius: 3px; display: grid; place-items: center; font-family: var(--f-letrero); font-weight: 700; font-size: 26px; line-height: 1; overflow: hidden; }
 .celda::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--linea); }
 .pasajero { display: flex; gap: 22px; }
 .pasajero dt, .datos dt, .b-pie dt { font-family: var(--f-letrero); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; color: var(--gris); }
 .pasajero dd, .datos dd, .b-pie dd { font-family: var(--f-dato); font-weight: 500; font-size: 13px; overflow-wrap: anywhere; }
-.avion-atras { position: absolute; left: 50%; top: 71%; width: 150px; margin: -46px 0 0 -75px; }
+.avion-atras { position: absolute; left: 50%; top: 71%; width: 210px; margin: -64px 0 0 -105px; }
 .avion-atras svg { width: 100%; display: block; }
 .pista-aviso { position: absolute; left: 0; right: 0; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); text-align: center; display: grid; justify-items: center; }
 .pista-texto { font-family: var(--f-letrero); font-weight: 700; font-size: 16px; letter-spacing: .12em; text-transform: uppercase; color: var(--violeta-texto); background: var(--papel); padding: 2px 10px; animation: flotar 1.6s ease-in-out infinite; }
@@ -108,20 +115,21 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 .velocidad b { display: block; font-family: var(--f-letrero); font-weight: 700; font-size: 104px; line-height: 1; font-variant-numeric: tabular-nums; }
 
 /* 2 Ventanilla */
-#e2 { height: 500vh; height: 500svh; }
-#e2 .fijo { transition: background .5s; }
-#e2 .fijo.oscuro { background: var(--tinta); }
-.cabina { position: absolute; inset: 58px 0 0; display: grid; grid-template-rows: auto 1fr; justify-items: center; padding-top: 12px; gap: 12px; }
-.ventana { position: relative; height: 36svh; aspect-ratio: 5 / 7; border-radius: 50% / 50%; background: var(--niebla); box-shadow: 0 0 0 10px var(--papel), 0 0 0 11px var(--linea), 0 0 0 26px var(--niebla), 0 0 0 27px var(--linea); overflow: hidden; margin-top: 26px; transition: box-shadow .5s; }
-.oscuro .ventana { box-shadow: 0 0 0 10px #1f1d27, 0 0 0 11px #3a3650, 0 0 0 26px #191720, 0 0 0 27px #3a3650; }
-.ventana > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.ventana .foto { position: absolute; inset: 0; border: 0; }
-.persiana { position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, var(--papel) 0 10px, var(--linea) 10px 11px); border-bottom: 3px solid var(--gris-claro); z-index: 3; }
-.relato { position: relative; width: 100%; align-self: stretch; margin-top: 18px; }
+#e2 { height: 560vh; height: 560svh; }
+#cielo { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cabina { position: absolute; inset: 58px 0 0; display: grid; grid-template-rows: auto 1fr; justify-items: center; padding-top: 14px; gap: 10px; }
+.ventana { position: relative; z-index: 0; height: 52svh; width: min(80%, 350px); border-radius: 46% / 36%; overflow: hidden; will-change: transform; box-shadow: inset 0 16px 26px rgba(18,17,23,.34), inset 0 0 0 2px rgba(18,17,23,.25), 0 0 0 9px #fff, 0 0 0 10px #cfccd8, 0 0 0 24px #f7f6fa, 0 0 0 25px #dedce4, 0 0 0 200vmax #efedf3; }
+.oscuro .ventana { box-shadow: inset 0 16px 26px rgba(0,0,0,.6), inset 0 0 0 2px rgba(0,0,0,.5), 0 0 0 9px #26242f, 0 0 0 10px #3a3650, 0 0 0 24px #1c1a24, 0 0 0 25px #3a3650, 0 0 0 200vmax #121117; }
+.vidrio { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.2) 0 16%, rgba(255,255,255,0) 16% 24%, rgba(255,255,255,.1) 24% 29%, rgba(255,255,255,0) 29%); }
+.vidrio::after { content: ""; position: absolute; left: 50%; bottom: 9%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: rgba(18,17,23,.4); }
+.ventana .foto { position: absolute; left: 22%; right: 22%; top: 20%; aspect-ratio: 1; border: 7px solid #fff; z-index: 1; box-shadow: 0 10px 30px rgba(18,17,23,.25); }
+.persiana { position: absolute; inset: 0; background: repeating-linear-gradient(to bottom, #fbfafd 0 13px, #dedce4 13px 14px); border-bottom: 4px solid var(--gris-claro); z-index: 3; }
+.persiana::after { content: ""; position: absolute; left: 50%; bottom: 8px; width: 46px; height: 7px; margin-left: -23px; border-radius: 4px; background: var(--gris-claro); }
+.relato { position: relative; z-index: 1; width: 100%; align-self: stretch; margin-top: 26px; }
 .capitulo { position: absolute; left: 0; right: 0; top: 0; padding-left: var(--gi); padding-right: var(--gd); display: grid; gap: 8px; text-align: center; justify-items: center; }
 .capitulo > * { min-width: 0; max-width: 400px; }
-.capitulo h3 { font-family: var(--f-letrero); font-weight: 700; font-size: 26px; line-height: 1.05; text-transform: uppercase; letter-spacing: .02em; }
-.capitulo .cuento { font-family: var(--f-display); font-style: italic; font-size: 22px; line-height: 1.25; }
+.capitulo h3 { font-family: var(--f-letrero); font-weight: 700; font-size: 24px; line-height: 1.05; text-transform: uppercase; letter-spacing: .02em; }
+.capitulo .cuento { font-family: var(--f-display); font-style: italic; font-size: 20px; line-height: 1.22; }
 .oscuro .capitulo { color: var(--papel); }
 .pal { transition: opacity .2s; }
 .alerta { background: var(--papel); color: var(--tinta); border-radius: 8px; padding: 12px; display: grid; gap: 9px; width: 100%; text-align: left; }
@@ -186,7 +194,7 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 .fiesta .letrero { color: var(--violeta); text-align: center; }
 
 /* Tramo plano */
-.plano { padding: 40px var(--gd) 40px var(--gi); display: grid; gap: 22px; }
+.plano { position: relative; z-index: 5; background: var(--papel); padding: 40px var(--gd) 40px var(--gi); display: grid; gap: 22px; }
 .plano > * { min-width: 0; }
 .lectura { background: var(--violeta-suave); border: 0; border-radius: 2px; padding: 20px 14px 12px; display: grid; gap: 8px; text-align: center; cursor: pointer; color: var(--tinta); min-height: 180px; align-content: center; width: 100%; }
 .lectura-texto { font-family: var(--f-display); font-style: italic; font-size: 23px; line-height: 1.25; text-wrap: balance; transition: opacity .25s; }
@@ -208,11 +216,9 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 
 /* 5 Aterrizaje */
 #e5 { height: 300vh; height: 300svh; }
-.aproximacion { position: absolute; inset: 58px 0 0; }
-.aproximacion .suelo { position: absolute; left: 0; right: 0; top: 64%; border-top: 2px solid var(--tinta); }
-.aproximacion .suelo::after { content: ""; position: absolute; left: 0; right: 0; top: 14px; border-top: 3px dashed var(--gris-claro); }
-.aproximacion svg { position: absolute; left: 0; top: 0; width: 88px; fill: var(--violeta); stroke: var(--tinta); stroke-width: .9; }
-.aproximacion p { position: absolute; left: 0; right: 0; top: 74%; text-align: center; font-family: var(--f-display); font-style: italic; font-size: 30px; }
+.aproximacion { position: absolute; inset: 0; }
+.aproximacion .paisaje { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bienvenida { position: absolute; left: 0; right: 0; top: 76px; text-align: center; display: grid; gap: 4px; }
 .armar-fijo { position: absolute; inset: 58px 0 0; padding: 12px var(--gd) 0 var(--gi); display: grid; gap: 8px; justify-items: center; align-content: start; text-align: center; }
 .armar-fijo > * { min-width: 0; }
 .marco-escena { position: relative; width: min(100%, calc((100svh - 130px) * .6667)); }
@@ -266,6 +272,8 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
 .nombre-pase { font-family: var(--f-display); font-style: italic; font-size: 36px; line-height: 1.1; overflow-wrap: anywhere; }
 
 @media (max-height: 700px) {
+  .frase-clara { font-size: 21px; }
+  .marca { font-size: 32px; }
   .frase { font-size: 23px; }
   .capitulo .cuento { font-size: 19px; }
   .alerta-titulo { font-size: 23px; }
@@ -290,13 +298,12 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
     <section class="escena" id="e1" aria-label="El despegue">
       <div class="fijo">
         <canvas id="lienzo" aria-hidden="true"></canvas>
-        <div class="avion-atras vis" id="avion-atras" aria-hidden="true">
-          <svg viewBox="0 0 150 92"><path d="M2 54 62 42h26l60 12v5L88 54H62L2 59z" fill="#121117"/><path d="M75 4c4 0 5 12 5 22H70c0-10 1-22 5-22z" fill="#bfaef2" stroke="#121117" stroke-width="1.5"/><path d="M47 28 72 24h6l25 4v4H47z" fill="#121117"/><circle cx="75" cy="50" r="24" fill="#fff" stroke="#121117" stroke-width="3"/><circle cx="75" cy="50" r="9" fill="#bfaef2" stroke="#121117" stroke-width="2"/><circle cx="33" cy="62" r="10" fill="#fff" stroke="#121117" stroke-width="2.5"/><circle cx="117" cy="62" r="10" fill="#fff" stroke="#121117" stroke-width="2.5"/><path d="M62 74v12M88 74v12" stroke="#121117" stroke-width="3"/></svg>
-        </div>
+        <div class="avion-atras vis" id="avion-atras" aria-hidden="true"></div>
         <div class="intro borde-g vis" id="intro">
-          <p class="aerolinea">Nandy Airlines<small>Natalia + Andi · Vuelo NA 0207</small></p>
-          <p class="letrero bendicion"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M5 0h2v4h5v2H7v10H5V6H0V4h5z"/></svg>Con la bendición de Dios</p>
-          <p class="frase">Nos embarcamos en el viaje más importante de nuestra vida, con Dios al mando.</p>
+          <p class="marca">Nandy Airlines</p>
+          <p class="marca-sub">Natalia + Andi · Vuelo NA 0207</p>
+          <p class="bendicion-grande"><svg viewBox="0 0 12 16" aria-hidden="true"><path d="M5 0h2v4h5v2H7v10H5V6H0V4h5z"/></svg>Con la bendición de Dios</p>
+          <p class="frase-clara">Nos embarcamos en el viaje más importante de nuestra vida, <strong>con Dios al mando.</strong></p>
           <div class="tablero" id="tablero" role="img" aria-label="2 de julio de 2027"></div>
           <dl class="pasajero">
             <div><dt>Pasajero</dt><dd id="h-pasajero">Invitado de honor</dd></div>
@@ -322,22 +329,18 @@ h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-s
     <!-- 2 Ventanilla -->
     <section class="escena" id="e2" aria-label="Nuestra historia vista desde la ventanilla">
       <div class="fijo" id="cabina-fijo">
-        <div class="cabina">
+        <canvas id="cielo" aria-hidden="true"></canvas>
+        <div class="cabina" id="cabina">
           <div class="ventana" id="ventana">
-            <svg viewBox="0 0 200 280" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <g id="a1" opacity="0"><rect width="200" height="280" fill="#121117"/><circle cx="150" cy="56" r="20" fill="#f3effd"/><g id="a1m"><rect x="-40" y="150" width="70" height="130" fill="#34313d"/><rect x="40" y="110" width="90" height="170" fill="#fff"/><path d="M78 124h14v12h12v14H92v12H78v-12H66v-14h12z" fill="#bfaef2"/><g fill="#121117"><rect x="52" y="180" width="14" height="14"/><rect x="78" y="180" width="14" height="14"/><rect x="104" y="180" width="14" height="14"/><rect x="52" y="210" width="14" height="14"/><rect x="104" y="210" width="14" height="14"/></g><rect x="140" y="160" width="100" height="120" fill="#34313d"/><rect x="156" y="176" width="26" height="18" fill="#bfaef2"/><rect x="196" y="176" width="26" height="18" fill="#a9a5b3"/></g></g>
-              <g id="a2" opacity="0"><rect width="200" height="280" fill="#fff"/><path id="ecg" d="M0 100h44l10-30 14 62 12-48 8 16h112" fill="none" stroke="#6650ad" stroke-width="3"/><g font-family="IBM Plex Mono, monospace" font-size="12" fill="#121117" id="a2c" opacity="0"><text x="16" y="170">if (amor) {</text><text x="30" y="192">unir(ella, él);</text><text x="16" y="214">}</text></g></g>
-              <g id="a3" opacity="0"><rect width="200" height="280" fill="#121117"/><g fill="#34313d"><circle cx="30" cy="80" r="44"/><circle cx="110" cy="62" r="56"/><circle cx="180" cy="90" r="44"/></g><path id="rayo" d="M112 110 86 176h24l-18 62 52-82h-26l18-46z" fill="#bfaef2" opacity="0"/></g>
-              <g id="a4" opacity="0"><rect width="200" height="280" fill="#f3effd"/><g id="rayos" fill="#fff"><path d="M100 140 60-60h80z"/><path d="M100 140 300 100v80z"/><path d="M100 140 140 340H60z"/><path d="M100 140-100 180v-80z"/></g><circle cx="100" cy="140" r="36" fill="#fff" stroke="#bfaef2" stroke-width="3"/><path d="M95 112h10v18h17v10h-17v30H95v-30H78v-10h17z" fill="#6650ad"/></g>
-            </svg>
             <div class="foto" id="a5" data-foto="portada" style="opacity:0"></div>
+            <div class="vidrio" aria-hidden="true"></div>
             <div class="persiana" id="persiana"></div>
           </div>
           <div class="relato">
             <div class="capitulo anuncio vis" id="c0">
               <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
               <p class="letrero">Anuncio de cabina</p>
-              <p class="cuento" id="anuncio-texto">Señores pasajeros, bienvenidos a Nandy Airlines. Les habla su capitán Andrés, con la doctora Natalia como copiloto. Hoy volamos rumbo al altar, con Dios al mando.</p>
+              <p class="cuento" id="anuncio-texto">Señores pasajeros, bienvenidos a Nandy Airlines. Les habla su capitán Andrés, con la doctora Natalia como copiloto. Hoy volamos rumbo al altar.</p>
               <button type="button" class="boton" id="capitan" style="max-width:260px">Escuchar al capitán</button>
               <span class="chip" style="justify-self:center">Voz de ejemplo</span>
             </div>
@@ -367,7 +370,8 @@ Firmado: Andrés, programador.</pre></div>
     <section class="escena" id="e3" aria-label="El descenso a Medellín y la ceremonia">
       <div class="fijo">
         <svg id="valle" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <rect width="400" height="800" fill="#fff"/>
+          <defs><linearGradient id="cielo3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6dffa"/><stop offset=".55" stop-color="#ffffff"/></linearGradient></defs>
+          <rect width="400" height="800" fill="url(#cielo3)"/>
           <g id="v-far"><path d="M-40 800V430l90-90 70 60 90-120 90 100 70-50 70 90v380z" fill="#f3f2f6"/></g>
           <g id="v-mid"><path d="M-40 800V520l80-60 90 70 70-90 100 90 80-60 60 60v270z" fill="#dedce4"/></g>
           <g id="v-val">
@@ -376,6 +380,7 @@ Firmado: Andrés, programador.</pre></div>
             <path id="rio" d="M-20 640C70 600 90 700 180 660s130-50 240-20" fill="none" stroke="#bfaef2" stroke-width="10" opacity="0"/>
             <g fill="#34313d"><rect x="10" y="596" width="30" height="70"/><rect x="48" y="576" width="24" height="90"/><rect x="310" y="580" width="34" height="86"/><rect x="352" y="600" width="26" height="66"/></g>
           </g>
+          <g id="v-nubes" fill="#fff"><ellipse cx="90" cy="330" rx="78" ry="20"/><ellipse cx="136" cy="314" rx="48" ry="22"/><ellipse cx="60" cy="316" rx="36" ry="16"/><ellipse cx="330" cy="400" rx="86" ry="20"/><ellipse cx="290" cy="386" rx="44" ry="20"/><ellipse cx="200" cy="470" rx="96" ry="18"/></g>
           <g id="iglesia">
             <rect x="96" y="470" width="34" height="250" fill="#fff" stroke="#121117" stroke-width="2.5"/><rect x="270" y="470" width="34" height="250" fill="#fff" stroke="#121117" stroke-width="2.5"/>
             <path d="M96 470l17-40 17 40zM270 470l17-40 17 40z" fill="#121117"/>
@@ -428,7 +433,7 @@ Firmado: Andrés, programador.</pre></div>
             <div class="b-top"><span>Fiesta</span><span>Salón principal</span></div>
             <div class="b-cuerpo">
               <p class="destino">Évora Eventos</p>
-              <p>Recepción, cena y pista abierta hasta las 2:00 a.m.</p>
+              <p>Justo al frente de la iglesia. Recepción, cena y pista abierta hasta las 2:00 a.m.</p>
               <dl class="datos"><div><dt>Vestimenta</dt><dd>Formal, blanco y negro</dd></div><div><dt>Regalos</dt><dd>Lluvia de sobres</dd></div></dl>
               <span class="chip">Datos de ejemplo</span>
             </div>
@@ -446,7 +451,7 @@ Firmado: Andrés, programador.</pre></div>
     </section>
 
     <!-- Tramo plano -->
-    <section class="plano">
+    <section class="plano" style="padding-bottom:28px">
       <p class="letrero">Manual de vuelo</p>
       <button type="button" class="lectura" id="lectura" aria-live="polite">
         <span class="lectura-texto" id="l-texto">El amor todo lo excusa, todo lo cree, todo lo espera, todo lo soporta. El amor no pasa nunca.</span>
@@ -464,7 +469,22 @@ Firmado: Andrés, programador.</pre></div>
     <!-- 5 Aterrizaje -->
     <section class="escena" id="e5" aria-label="El aterrizaje y el rompecabezas">
       <div class="fijo">
-        <div class="aproximacion vis" id="aprox"><div class="suelo"></div><svg viewBox="-16 -13 32 26" id="avion-lado" aria-hidden="true"><path d="M16 0 5-2-1-11h-3l3 9h-7l-3-4h-2l1.5 6L-13 6h2l3-4h7l-3 9h3L5 2z"/></svg><p>Bienvenidos a Medellín</p></div>
+        <div class="aproximacion vis" id="aprox">
+          <svg class="paisaje" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="cielo5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8cff5"/><stop offset=".62" stop-color="#ffffff"/></linearGradient></defs>
+            <rect width="400" height="800" fill="url(#cielo5)"/>
+            <circle cx="300" cy="270" r="54" fill="#fff"/>
+            <g fill="#fff" opacity=".9"><ellipse cx="80" cy="250" rx="64" ry="16"/><ellipse cx="120" cy="238" rx="40" ry="16"/><ellipse cx="320" cy="350" rx="70" ry="14"/></g>
+            <path d="M-20 520V390l90-70 70 56 90-104 90 92 90-54v210z" fill="#dedce4"/>
+            <path d="M-20 520V440l100-40 90 44 90-50 150 46v80z" fill="#a9a5b3"/>
+            <g fill="#34313d"><rect x="20" y="462" width="26" height="58"/><rect x="52" y="444" width="22" height="76"/><rect x="82" y="470" width="30" height="50"/><rect x="288" y="452" width="26" height="68"/><rect x="320" y="470" width="24" height="50"/><rect x="350" y="438" width="26" height="82"/></g>
+            <rect y="520" width="400" height="280" fill="#f3f2f6"/>
+            <path d="M188 520h24l190 280H-2z" fill="#fff" stroke="#121117" stroke-width="2"/>
+            <g id="franjas5" fill="#121117"></g>
+          </svg>
+          <div class="bienvenida borde-g"><p class="letrero">Aterrizando</p><h2>Bienvenidos a Medellín</h2></div>
+          <div class="avion-atras" id="avion-baja" style="top:0;left:50%;margin:0 0 0 -105px"></div>
+        </div>
         <div class="armar-fijo vis" id="armar-fijo" style="opacity:0">
           <p class="letrero" id="armar-letrero">Sigue bajando para armar la imagen</p>
           <div class="marco-escena" id="marco-escena">
@@ -494,12 +514,16 @@ Firmado: Andrés, programador.</pre></div>
         <div><b id="r-s">–</b><small>Seg</small></div>
       </div>
       <a class="boton" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Boda%20de%20Andr%C3%A9s%20y%20Natalia&amp;dates=20270702T210000Z/20270703T070000Z&amp;ctz=America/Bogota&amp;location=Iglesia%20Esp%C3%ADritu%20Santo%2C%20Medell%C3%ADn&amp;details=Ceremonia%20en%20la%20Iglesia%20Esp%C3%ADritu%20Santo%20y%20fiesta%20en%20%C3%89vora%20Eventos.">Agregar al calendario</a>
+      <a class="boton" style="background:var(--papel);border:1.5px solid var(--tinta)" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Iglesia%20Esp%C3%ADritu%20Santo%20Medell%C3%ADn">Cómo llegar a la iglesia y a Évora</a>
+      <p style="text-align:center;color:var(--gris);margin-top:-12px">Évora Eventos queda justo al frente de la iglesia.</p>
       <p class="verso" style="text-align:center">“Ten misericordia de nosotros y haz que lleguemos juntos a la vejez.”<cite>Tobías 8, 7</cite></p>
       <p class="pie">Gracias por volar con Nandy Airlines</p>
       <p class="letrero" style="text-align:center">Natalia + Andi</p>
     </section>
   </main>
 </div>
+
+<div id="medida" aria-hidden="true" style="position:absolute;top:0;left:0;width:0;height:100vh;height:100svh;visibility:hidden"></div>
 
 <div class="rasgar" id="rasgar">
   <div class="rasgar-in">
@@ -534,7 +558,7 @@ Firmado: Andrés, programador.</pre></div>
   function seg(p, a, b) { return cl((p - a) / (b - a)); }
   function ven(p, a, b, f) { return Math.min(seg(p, a, a + f), 1 - seg(p, b - f, b)); }
   function ss(t) { return t * t * (3 - 2 * t); }
-  function vis(e, o, tr) { e.style.opacity = o; e.style.visibility = o < .02 ? 'hidden' : 'visible'; if (tr !== undefined) e.style.transform = tr; }
+  function vis(e, o, tr) { e.style.opacity = o; e.style.visibility = o < .02 ? 'hidden' : ''; if (tr !== undefined) e.style.transform = tr; }
   var AVION = 'M16 0 5-2-1-11h-3l3 9h-7l-3-4h-2l1.5 6L-13 6h2l3-4h7l-3 9h3L5 2z';
   var DIGITOS = ['0', '2', '0', '7', '2', '7'];
   var abierta = false;
@@ -563,6 +587,30 @@ Firmado: Andrés, programador.</pre></div>
   });
   function revelar(e, q) { var n = Math.ceil(q * e._pal.length); if (n === e._n) return; e._n = n; e._pal.forEach(function (s, i) { s.style.opacity = i < n ? 1 : .16; }); }
   function pal(c) { return c.querySelector('[data-pal]'); }
+
+  /* Avión: vista trasera al despegar, frontal al aterrizar */
+  function avionSVG(frente) {
+    var T = '#121117', V = '#bfaef2', G = '#f3f2f6';
+    function motor(x) {
+      var s = '<path d="M' + x + ' 104v12" stroke="' + T + '" stroke-width="6"/><circle cx="' + x + '" cy="130" r="22" fill="#fff" stroke="' + T + '" stroke-width="2.5"/>';
+      if (frente) { s += '<circle cx="' + x + '" cy="130" r="17" fill="#2a2833"/><g class="aspas" data-x="' + x + '">'; for (var a = 0; a < 12; a++) { var r = a * Math.PI / 6; s += '<path d="M' + x + ' 130L' + (x + Math.cos(r) * 16).toFixed(1) + ' ' + (130 + Math.sin(r) * 16).toFixed(1) + '" stroke="#a9a5b3" stroke-width="2"/>'; } s += '</g><circle cx="' + x + '" cy="130" r="5" fill="' + V + '" stroke="#fff" stroke-width="1"/>'; }
+      else s += '<circle cx="' + x + '" cy="130" r="15" fill="#dedce4" stroke="' + T + '" stroke-width="1.5"/><circle cx="' + x + '" cy="130" r="7" fill="#2a2833"/>';
+      return s;
+    }
+    var ala = '<path d="M122 92 28 73Q15 70 13 60L9 40H4L5 68Q7 84 24 88L122 118Z" fill="' + G + '" stroke="' + T + '" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 40H4L5 64 13 62Z" fill="' + V + '" stroke="' + T + '" stroke-width="1.6"/><path d="M118 104 34 82" stroke="#a9a5b3" stroke-width="1.5"/>';
+    var alas = ala + '<g transform="matrix(-1 0 0 1 300 0)">' + ala + '</g>';
+    var est = '<path d="M134 56 84 47 81 54 134 70Z" fill="' + G + '" stroke="' + T + '" stroke-width="2" stroke-linejoin="round"/>', cola = est + '<g transform="matrix(-1 0 0 1 300 0)">' + est + '</g>';
+    var deriva = '<path d="M141 70 146 8Q150 1 154 8L159 70Z" fill="' + V + '" stroke="' + T + '" stroke-width="2.2" stroke-linejoin="round"/><path d="M147 30H153M150 22V46" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>';
+    var tren = '<g class="tren"><path d="M116 134v24M184 134v24' + (frente ? 'M150 138v20' : '') + '" stroke="' + T + '" stroke-width="4"/><g fill="' + T + '"><rect x="106" y="156" width="9" height="17" rx="3"/><rect x="117" y="156" width="9" height="17" rx="3"/><rect x="174" y="156" width="9" height="17" rx="3"/><rect x="185" y="156" width="9" height="17" rx="3"/>' + (frente ? '<rect x="143" y="156" width="6" height="15" rx="2.5"/><rect x="151" y="156" width="6" height="15" rx="2.5"/>' : '') + '</g></g>';
+    var id = frente ? 'cf' : 'cr', cuerpo = '<clipPath id="' + id + '"><ellipse cx="150" cy="100" rx="38" ry="43"/></clipPath><ellipse cx="150" cy="100" rx="38" ry="43" fill="#fff"/><g clip-path="url(#' + id + ')"><rect x="100" y="120" width="100" height="40" fill="#e8e6ef"/><rect x="100" y="108" width="100" height="7" fill="' + V + '"/></g>';
+    var cara = frente ? '<path d="M122 86Q150 68 178 86L172 100Q150 90 128 100Z" fill="#121117"/><path d="M137 77 139 95M150 74V92M163 77 161 95" stroke="#fff" stroke-width="2"/><path d="M127 88 133 82" stroke="#bfaef2" stroke-width="2" stroke-linecap="round"/><ellipse cx="150" cy="126" rx="10" ry="9" fill="#f3f2f6" stroke="#a9a5b3" stroke-width="1.5"/>'
+                      : '<ellipse cx="150" cy="104" rx="11" ry="11" fill="#dedce4" stroke="' + T + '" stroke-width="1.8"/><circle cx="150" cy="104" r="5" fill="#2a2833"/>';
+    var aro = '<ellipse cx="150" cy="100" rx="38" ry="43" fill="none" stroke="' + T + '" stroke-width="2.6"/>';
+    var capas = frente ? deriva + cola + alas + tren + motor(76) + motor(224) + cuerpo + cara + aro : alas + tren + motor(76) + motor(224) + cuerpo + cara + aro + cola + deriva;
+    return '<svg viewBox="0 0 300 180">' + capas + '</svg>';
+  }
+  $('avion-atras').innerHTML = avionSVG(false); $('avion-baja').innerHTML = avionSVG(true);
+  var aspas = [].slice.call($('avion-baja').querySelectorAll('.aspas')), trenSube = $('avion-atras').querySelector('.tren');
 
   /* 1 Despegue */
   var cv = $('lienzo'), cx = cv.getContext('2d'), CW = 0, CH = 0, ult1 = 0;
@@ -597,40 +645,109 @@ Firmado: Andrés, programador.</pre></div>
     pintar1(p);
     var a = seg(p, .05, .16); vis($('intro'), 1 - a, 'translateY(' + (-70 * a) + 'px)'); vis($('pista-aviso'), 1 - seg(p, .02, .08));
     var g = ss(seg(p, .08, .42)), l = ss(seg(p, .42, .68));
-    vis($('avion-atras'), 1 - seg(p, .6, .7), 'translateY(' + (-CH * .5 * l) + 'px) scale(' + (1 + g * 1.1 - l * 1.6) + ') rotate(' + Math.sin(p * 40) * g * 2 + 'deg)');
+    vis($('avion-atras'), 1 - seg(p, .6, .7), 'translateY(' + (-CH * .5 * l) + 'px) scale(' + (1 + g * .6 - l * 1.25) + ') rotate(' + Math.sin(p * 40) * g * 2 + 'deg)');
     vis($('velocidad'), ven(p, .1, .62, .05)); $('nudos').textContent = Math.round(165 * Math.pow(seg(p, .1, .5), 1.4));
+    trenSube.style.opacity = 1 - seg(p, .46, .54);
     var q = ss(seg(p, .74, .92)); vis($('nombres'), q, 'scale(' + (.86 + .14 * q) + ')');
   }
 
   /* 2 Ventanilla */
-  var C = [['c1', .15, .31], ['c2', .31, .46], ['c3a', .46, .58], ['c3b', .58, .68], ['c4', .68, .84], ['c5', .84, 1.05]];
+  var C = [['c1', .15, .31], ['c2', .31, .46], ['c3a', .46, .58], ['c3b', .58, .68], ['c4', .68, .84], ['c5', .84, .95]];
   var termTexto = $('terminal').textContent, nTerm = -1;
+  /* El cielo que se ve por la ventanilla */
+  var k2 = $('cielo'), g2 = k2.getContext('2d'), W2 = 0, H2 = 0, wY = 0, wH = 0;
+  function nube(color) {
+    var c = document.createElement('canvas'); c.width = 360; c.height = 170; var g = c.getContext('2d');
+    for (var i = 0; i < 26; i++) {
+      var x = 60 + (i * 97 % 240), y = 70 + (i * 53 % 62) - Math.sin((x - 60) / 240 * Math.PI) * 34, r = 26 + (i * 31 % 34), gr = g.createRadialGradient(x, y, 0, x, y, r);
+      gr.addColorStop(0, 'rgba(' + color + ',.95)'); gr.addColorStop(.55, 'rgba(' + color + ',.55)'); gr.addColorStop(1, 'rgba(' + color + ',0)');
+      g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+    }
+    return c;
+  }
+  var NB = nube('255,255,255'), NN = nube('62,56,112'), NT = nube('58,55,72');
+  var CAPAS = [[9, .66, .5, .55, 1], [8, .76, 1, .85, 2.3], [5, .95, 2, 1, 5], [5, .3, .75, .5, 3.4]].map(function (c, j) { var o = []; for (var i = 0; i < c[0]; i++) o.push({ s: (i + (i * 7 + j * 3) % 5 * .17) / c[0], dy: ((i * 37 + j * 11) % 10 - 5) / 100, k: .75 + (i * 13 % 7) / 12 }); return { n: o, y: c[1], e: c[2], a: c[3], v: c[4] }; });
+  var LUCES = []; for (var u = 0; u < 150; u++) LUCES.push({ x: (u * 73 % 211) / 211, y: (u * 41 % 97) / 97, c: ['#ffe6b8', '#ffffff', '#bfaef2', '#ffd08a'][u % 4], r: 1 + u % 3 * .6 });
+  var ESTR = []; for (u = 0; u < 60; u++) ESTR.push({ x: (u * 89 % 233) / 233, y: (u * 47 % 101) / 101 * .55, f: u * .7 });
+  var GOTAS = []; for (u = 0; u < 46; u++) GOTAS.push({ x: (u * 61 % 199) / 199, y: (u * 83 % 157) / 157, l: 14 + u % 5 * 8 });
+  var KF = [[0, [205, 222, 250], [245, 242, 252]], [.13, [205, 222, 250], [245, 242, 252]], [.17, [13, 14, 40], [58, 44, 104]], [.3, [13, 14, 40], [58, 44, 104]], [.36, [255, 190, 170], [222, 204, 248]], [.45, [176, 204, 248], [250, 236, 246]], [.47, [20, 19, 28], [48, 45, 60]], [.67, [20, 19, 28], [48, 45, 60]], [.74, [196, 186, 240], [255, 244, 226]], [.86, [184, 212, 250], [255, 244, 226]], [.97, [255, 255, 255], [255, 255, 255]], [1, [255, 255, 255], [255, 255, 255]]];
+  function tam2() { var f = k2.parentNode, d = Math.min(1.5, window.devicePixelRatio || 1); W2 = f.clientWidth; H2 = f.clientHeight; k2.width = W2 * d; k2.height = H2 * d; g2.setTransform(d, 0, 0, d, 0, 0); wY = 72; wH = H2 * .52; }
+  function colores(p) { for (var i = 1; i < KF.length; i++) if (p <= KF[i][0]) { var a = KF[i - 1], b = KF[i], t = seg(p, a[0], b[0]); return [mezcla(a[1], b[1], t), mezcla(a[2], b[2], t)]; } return [KF[KF.length - 1][1], KF[KF.length - 1][2]]; }
+  function cielo(p, t) {
+    var g = g2, W = W2, H = H2, c = colores(p), noche = ven(p, .14, .33, .04), tor = ven(p, .46, .68, .02), hor = wY + wH * .62, ban = Math.sin(p * 9) * .035 + (tor ? Math.sin(p * 500) * .012 : 0);
+    var gr = g.createLinearGradient(0, wY, 0, wY + wH); gr.addColorStop(0, 'rgb(' + c[0] + ')'); gr.addColorStop(1, 'rgb(' + c[1] + ')'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    g.save(); g.translate(W / 2, hor); g.rotate(ban); g.translate(-W / 2, -hor);
+    if (noche) {
+      g.fillStyle = '#fff'; ESTR.forEach(function (s) { g.globalAlpha = noche * (.45 + .55 * Math.abs(Math.sin(s.f + t * 1.4))); g.fillRect(s.x * W, wY + s.y * wH, 1.6, 1.6); });
+      g.globalAlpha = noche; g.fillStyle = '#f3effd'; g.beginPath(); g.arc(W * .68, wY + wH * .2, 24, 0, 7); g.fill();
+      var ox = p * W * 7; LUCES.forEach(function (l) { var x = ((l.x * W * 1.5 - ox) % (W * 1.5) + W * 1.5) % (W * 1.5) - W * .25, per = .35 + l.y * .65, y = hor + 10 + l.y * l.y * wH * .42; g.globalAlpha = noche * (.6 + .4 * Math.sin(l.x * 90 + t)); g.fillStyle = l.c; g.beginPath(); g.arc(x, y, l.r * per * 1.4, 0, 7); g.fill(); });
+      var hx = W * 1.25 - seg(p, .16, .3) * W * 1.5, hy = hor + wH * .17; g.globalAlpha = noche; g.fillStyle = '#fff'; g.fillRect(hx - 18, hy, 36, 26); g.fillStyle = '#bfaef2'; g.fillRect(hx - 3, hy + 4, 6, 18); g.fillRect(hx - 9, hy + 10, 18, 6);
+      g.globalAlpha = 1;
+    }
+    var sol = ven(p, .68, 1.2, .05);
+    if (sol) {
+      var sx = W * .5, sy = wY + wH * .42, R = wH; g.save(); g.translate(sx, sy); g.rotate(p * 2.4); g.globalAlpha = sol * .5; g.fillStyle = '#fff';
+      for (var a = 0; a < 10; a++) { g.rotate(Math.PI / 5); g.beginPath(); g.moveTo(0, 0); g.lineTo(R * 1.3, -R * .1); g.lineTo(R * 1.3, R * .1); g.fill(); }
+      g.restore(); var gl = g.createRadialGradient(sx, sy, 0, sx, sy, wH * .32); gl.addColorStop(0, 'rgba(255,255,255,' + sol + ')'); gl.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gl; g.fillRect(0, 0, W, H);
+      var cr = ven(p, .69, .86, .03); if (cr) { g.globalAlpha = cr; g.fillStyle = '#6650ad'; g.fillRect(sx - 4, sy - 34, 8, 68); g.fillRect(sx - 22, sy - 14, 44, 8); g.globalAlpha = 1; }
+    }
+    var es = ven(p, .31, .46, .02);
+    if (es) {
+      var q = seg(p, .32, .41), y0 = wY + wH * .3, x0 = W * .1, ww = W * .8, P = [[0, 0], [.3, 0], [.36, -34], [.44, 44], [.52, -24], [.57, 0], [1, 0]], n = q * (P.length - 1), last = null;
+      g.globalAlpha = es; g.strokeStyle = '#fff'; g.lineWidth = 5; g.lineJoin = 'round'; g.lineCap = 'round'; g.shadowColor = 'rgba(102,80,173,.55)'; g.shadowBlur = 12; g.beginPath(); g.moveTo(x0, y0);
+      for (var i = 1; i < P.length && i - 1 < n; i++) { var f = Math.min(1, n - i + 1), px = P[i - 1][0] + (P[i][0] - P[i - 1][0]) * f, py = P[i - 1][1] + (P[i][1] - P[i - 1][1]) * f; last = [x0 + px * ww, y0 + py]; g.lineTo(last[0], last[1]); }
+      g.stroke(); g.shadowBlur = 0;
+      if (last && q < 1) { g.save(); g.translate(last[0], last[1]); g.scale(.7, .7); g.fillStyle = '#121117'; g.fill(new Path2D(AVION)); g.restore(); }
+      var qc = seg(p, .4, .44); if (qc) { g.globalAlpha = es * qc; g.fillStyle = '#fff'; g.shadowColor = 'rgba(102,80,173,.7)'; g.shadowBlur = 8; g.font = '500 17px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.fillText('if (amor) unir(ella, él);', W / 2, y0 + 72); g.shadowBlur = 0; g.textAlign = 'start'; }
+      g.globalAlpha = 1;
+    }
+    var osc = Math.max(noche * .9, tor), den = 1 - noche * .55;
+    CAPAS.forEach(function (L) {
+      L.n.forEach(function (o) {
+        var cw = 300 * L.e * o.k, ch = cw * .47, span = W + cw * 1.4, x = (((o.s * span - p * L.v * W * 2.6 - t * L.v * 4) % span) + span) % span - cw * .7, y = wY + wH * (L.y + o.dy) - ch / 2;
+        g.globalAlpha = L.a * den * (1 - osc); if (g.globalAlpha > .01) g.drawImage(NB, x, y, cw, ch);
+        g.globalAlpha = L.a * den * osc; if (g.globalAlpha > .01) g.drawImage(tor > noche ? NT : NN, x, y, cw, ch);
+      });
+    });
+    g.globalAlpha = 1;
+    if (tor) {
+      var fl = Math.sin(p * 330) > .86 ? 1 : 0;
+      if (fl) { g.fillStyle = 'rgba(214,205,246,.55)'; g.fillRect(0, 0, W, H); var bx = W * (.3 + (Math.sin(p * 77) + 1) * .2), by = wY + 20; g.strokeStyle = '#fff'; g.lineWidth = 3; g.beginPath(); g.moveTo(bx, by); g.lineTo(bx + 24, by + wH * .2); g.lineTo(bx - 8, by + wH * .26); g.lineTo(bx + 18, by + wH * .5); g.stroke(); }
+      g.strokeStyle = 'rgba(214,214,235,' + (.5 * tor) + ')'; g.lineWidth = 1.2; g.beginPath();
+      GOTAS.forEach(function (d) { var y = wY + (((d.y * wH + p * 9000 + t * 300) % wH)), x = (d.x * W + y * .35) % W; g.moveTo(x, y); g.lineTo(x + d.l * .35, y + d.l); }); g.stroke();
+    }
+    /* Ala */
+    var lum = 1 - Math.max(noche, tor) * .8, gris = Math.round(70 + 150 * lum), ax = W * .5, ay = wY + wH * .79, sh = tor ? Math.sin(p * 900) * 3 : Math.sin(t * 2) * .8;
+    g.save(); g.globalAlpha = 1 - seg(p, .92, .97); g.translate(ax, ay + sh); g.rotate(-.13 + ban);
+    g.fillStyle = 'rgb(' + gris + ',' + gris + ',' + (gris + 8) + ')'; g.beginPath(); g.moveTo(-W * .62, 34); g.lineTo(W * .24, -18); g.lineTo(W * .27, -11); g.lineTo(-W * .3, 96); g.lineTo(-W * .62, 110); g.fill();
+    g.fillStyle = '#bfaef2'; g.beginPath(); g.moveTo(W * .24, -18); g.lineTo(W * .3, -60); g.lineTo(W * .325, -58); g.lineTo(W * .27, -11); g.fill();
+    g.strokeStyle = 'rgba(18,17,23,.28)'; g.lineWidth = 1; g.beginPath(); g.moveTo(-W * .5, 58); g.lineTo(W * .2, -10); g.stroke();
+    if (Math.sin(t * 5) > .4) { g.fillStyle = '#fff'; g.shadowColor = '#bfaef2'; g.shadowBlur = 14; g.beginPath(); g.arc(W * .31, -60, 3, 0, 7); g.fill(); g.shadowBlur = 0; }
+    g.restore(); g.restore();
+  }
+  var t2 = 0;
   function e2(p) {
+    t2 = reduce ? 0 : performance.now() / 1000;
     vis($('c0'), 1 - seg(p, .1, .14));
     $('persiana').style.transform = 'translateY(' + (-100 * ss(seg(p, .1, .19))) + '%)';
-    C.forEach(function (c) {
-      var e = $(c[0]), o = ven(p, c[1], c[2], .025), q = seg(p, c[1] + .015, c[2] - .03); vis(e, o, 'translateY(' + (14 * (1 - o)) + 'px)');
-      var w = pal(e); if (w) revelar(w, q);
-    });
-    var o1 = ven(p, .13, .31, .03); $('a1').setAttribute('opacity', o1); $('a1m').setAttribute('transform', 'translate(' + (60 - 130 * seg(p, .13, .31)) + ' 0)');
-    var q2 = seg(p, .31, .44), o2 = ven(p, .31, .46, .02), ecg = $('ecg'); $('a2').setAttribute('opacity', o2); var L = ecg._L || (ecg._L = ecg.getTotalLength()); ecg.style.strokeDasharray = L; ecg.style.strokeDashoffset = L * (1 - seg(q2, 0, .55)); $('a2c').setAttribute('opacity', seg(q2, .55, .9));
-    var o3 = ven(p, .46, .68, .02); $('a3').setAttribute('opacity', o3); $('rayo').setAttribute('opacity', o3 > .5 && Math.sin(p * 260) > .55 ? 1 : 0);
+    C.forEach(function (c) { var e = $(c[0]), o = ven(p, c[1], c[2], .025), q = seg(p, c[1] + .012, c[1] + (c[2] - c[1]) * .62); vis(e, o, 'translateY(' + (14 * (1 - o)) + 'px)'); var w = pal(e); if (w) revelar(w, q); });
     var oscuro = p > .455 && p < .675; $('cabina-fijo').classList.toggle('oscuro', oscuro);
-    var cab = $('cabina-fijo').firstElementChild; cab.style.transform = oscuro && !reduce ? 'translate(' + Math.sin(p * 620) * 4 + 'px,' + Math.cos(p * 510) * 3 + 'px)' : '';
-    var n = reduce ? termTexto.length : Math.floor(seg(p, .59, .665) * termTexto.length); if (n !== nTerm) { nTerm = n; $('terminal').textContent = termTexto.slice(0, n); }
-    var o4 = ven(p, .68, .85, .02); $('a4').setAttribute('opacity', o4); $('rayos').setAttribute('transform', 'rotate(' + p * 240 + ' 100 140)');
-    $('a5').style.opacity = seg(p, .84, .87);
+    $('cabina').style.transform = oscuro && !reduce ? 'translate(' + Math.sin(p * 620) * 4 + 'px,' + Math.cos(p * 510) * 3 + 'px)' : '';
+    var n = reduce ? termTexto.length : Math.floor(seg(p, .59, .655) * termTexto.length); if (n !== nTerm) { nTerm = n; $('terminal').textContent = termTexto.slice(0, n); }
+    var acerca = ss(seg(p, .1, .2)), sale = ss(seg(p, .91, 1)); $('ventana').style.transform = 'scale(' + (.86 + .14 * acerca + sale * sale * 5.2) + ')'; $('ventana').style.transformOrigin = '50% 50%';
+    vis($('a5'), ven(p, .84, .97, .03), 'rotate(' + (-3 + 6 * seg(p, .84, .95)) + 'deg) translateY(' + (10 - 20 * seg(p, .84, .95)) + 'px)');
+    cielo(p, t2);
   }
 
   /* 3 Descenso */
   var yIg = 680;
   function e3(p) {
     var d = ss(seg(p, 0, .46)), e = ss(seg(p, .44, .66)), o = ss(seg(p, .66, .78)), thru = seg(p, .76, .88), r = seg(p, .85, .94), fade = 1 - cl(e * 3);
-    $('v-far').setAttribute('transform', 'translate(0 ' + (300 - 260 * d) + ')'); $('v-far').setAttribute('opacity', fade);
-    $('v-mid').setAttribute('transform', 'translate(0 ' + (430 - 380 * d) + ')'); $('v-mid').setAttribute('opacity', fade);
-    $('v-val').setAttribute('transform', 'translate(0 ' + (560 - 530 * d) + ')'); $('v-val').setAttribute('opacity', fade);
+    $('v-far').setAttribute('transform', 'translate(0 ' + (90 - 50 * d) + ')'); $('v-far').setAttribute('opacity', fade);
+    $('v-mid').setAttribute('transform', 'translate(0 ' + (210 - 160 * d) + ')'); $('v-mid').setAttribute('opacity', fade);
+    $('v-val').setAttribute('transform', 'translate(0 ' + (340 - 310 * d) + ')'); $('v-nubes').setAttribute('transform', 'translate(' + (-60 * d) + ' ' + (-420 * d) + ')'); $('v-nubes').setAttribute('opacity', fade); $('v-val').setAttribute('opacity', fade);
     var cm = 200 - 260 + 420 * seg(p, 0, .5); $('cabina-m').setAttribute('transform', 'translate(' + (cm - 200) + ' ' + ((cm + 20) * .2045 - 45) + ')');
-    var chT = 600 - 600 * d, s = 1 + e * 5.5 + thru * thru * 26, yc = (yIg + chT) + (400 - yIg - chT) * e;
+    var chT = 420 - 420 * d, s = 1 + e * 5.5 + thru * thru * 26, yc = (yIg + chT) + (400 - yIg - chT) * e;
     $('iglesia').setAttribute('transform', 'translate(200 ' + yc + ') scale(' + s + ') translate(-200 ' + (-yIg) + ')');
     $('puerta-i').setAttribute('transform', 'translate(172 0) scale(' + (1 - o) + ' 1) translate(-172 0)');
     $('puerta-d').setAttribute('transform', 'translate(228 0) scale(' + (1 - o) + ' 1) translate(-228 0)');
@@ -708,9 +825,10 @@ Firmado: Andrés, programador.</pre></div>
   el('path', { d: CRUZ, class: 'hueco-cruz' }, escena);
   el('path', { d: CRUZ, class: 'cruz-pieza', id: 'cruz-pieza' }, escena);
   function e5(p) {
-    var a = ss(seg(p, 0, .17)), W = $('aprox').clientWidth, H = $('aprox').clientHeight;
-    var ax = -90 + (W * .5 + 45) * a, ay = H * .1 + (H * .64 - 34 - H * .1) * a, flare = 18 * (1 - seg(a, .75, 1));
-    $('avion-lado').style.transform = 'translate(' + ax + 'px,' + ay + 'px) rotate(' + flare + 'deg)';
+    var a = seg(p, 0, .19), e = ss(a), H = $('aprox').clientHeight, fase = p * 34;
+    $('avion-baja').style.transform = 'translateY(' + (H * .24 + H * .34 * e) + 'px) scale(' + (1.5 - 1 * e) + ') rotate(' + Math.sin(p * 44) * (1 - e) * 3 + 'deg)';
+    aspas.forEach(function (x) { var c = x.getAttribute('data-x'); x.setAttribute('transform', 'rotate(' + (p * 2600) + ' ' + c + ' 130)'); });
+    var fr = ''; for (var b5 = 0; b5 < 12; b5++) { var z = 1 - ((b5 / 12 + fase) % 1), t5 = Math.pow(z, 2.3), y5 = 520 + 280 * t5, h5 = 3 + 30 * t5, w5 = 2 + 12 * t5; fr += '<rect x="' + (200 - w5 / 2) + '" y="' + y5 + '" width="' + w5 + '" height="' + h5 + '"/>'; } $('franjas5').innerHTML = fr;
     vis($('aprox'), 1 - seg(p, .2, .26));
     var q = seg(p, .22, .84); vis($('armar-fijo'), seg(p, .22, .27));
     [0, 1, 2, 3, 4, 5].forEach(function (i, k) {
@@ -734,7 +852,7 @@ Firmado: Andrés, programador.</pre></div>
   });
 
   /* Motor: el scroll reproduce cada escena */
-  var ESC = [['e1', e1], ['e2', e2], ['e3', e3], ['e4', e4], ['e5', e5]].map(function (a) { var s = $(a[0]); return { el: s, fijo: s.querySelector('.fijo'), fn: a[1], t: 0, p: -1 }; });
+  var ESC = [['e1', e1], ['e2', e2], ['e3', e3], ['e4', e4], ['e5', e5]].map(function (a) { var s = $(a[0]); return { el: s, fijo: s.querySelector('.fijo'), fn: a[1], t: 0, p: -1, funde: a[0] === 'e2' || a[0] === 'e3' || a[0] === 'e4' }; });
   var FICHAS = [[1, .24, 0], [1, .4, 1], [1, .8, 2], [2, .8, 3], [3, .55, 4], [4, .12, 5]], hechas = {};
   function lanzarFicha(i) {
     hechas[i] = true; var d = digs[i], r = d.getBoundingClientRect(), f = document.createElement('div');
@@ -744,16 +862,18 @@ Firmado: Andrés, programador.</pre></div>
     requestAnimationFrame(function () { requestAnimationFrame(function () { f.style.left = (r.left + r.width / 2) + 'px'; f.style.top = (r.top + r.height / 2) + 'px'; f.style.transform = 'scale(.4) rotate(180deg)'; f.style.opacity = .4; }); });
     setTimeout(function () { f.remove(); fin(); }, 760);
   }
-  var corriendo = false, forzar = false;
+  var corriendo = false, forzar = false, cuadro = false;
   function tick() {
     var mas = false, vh = window.innerHeight;
     ESC.forEach(function (s) {
-      var R = s.el.getBoundingClientRect(), rec = R.height - s.fijo.offsetHeight;
+      var R = s.el.getBoundingClientRect(), rec = R.height - $('medida').offsetHeight, ve = R.top < vh && R.bottom > 0; s.fijo.style.visibility = ve ? 'visible' : 'hidden'; s.ve = ve;
       s.t = abierta ? cl(-R.top / Math.max(1, rec)) : 0;
       var dif = s.t - s.p, cerca = R.top < vh * 1.3 && R.bottom > -vh * .3;
       if (s.p < 0 || reduce || !cerca || Math.abs(dif) < .0005) { if (s.p !== s.t || forzar) { s.p = s.t; s.fn(s.p); } }
-      else { s.p += dif * .17; s.fn(s.p); mas = true; }
+      else { s.p += dif * .13; s.fn(s.p); mas = true; }
+      if (s.funde) s.fijo.style.opacity = seg(s.p, 0, .05);
     });
+    if (ESC[1].ve && abierta && !reduce && ESC[1].p > .08) { cuadro = !cuadro; if (cuadro) e2(ESC[1].p); mas = true; }
     forzar = false;
     if (abierta) {
       var D = document.documentElement, g = cl(window.scrollY / Math.max(1, D.scrollHeight - vh));
@@ -765,7 +885,7 @@ Firmado: Andrés, programador.</pre></div>
   }
   function despertar(f) { if (f === true) forzar = true; if (!corriendo) { corriendo = true; requestAnimationFrame(tick); } }
   window.addEventListener('scroll', despertar, { passive: true });
-  window.addEventListener('resize', function () { tam(); pintar1(ult1); puntosHud(); despertar(true); });
+  window.addEventListener('resize', function () { tam(); tam2(); pintar1(ult1); puntosHud(); despertar(true); });
   function puntosHud() {
     var R = $('ruta-hud'), D = document.documentElement, tot = Math.max(1, D.scrollHeight - window.innerHeight);
     [].forEach.call(R.querySelectorAll('.punto'), function (x) { x.remove(); });
@@ -833,7 +953,7 @@ Firmado: Andrés, programador.</pre></div>
       activo = false; irArriba(); R.classList.add('abierto');
       root.style.overflow = ''; document.body.style.overflow = '';
       irArriba(); abierta = true; window.removeEventListener('scroll', guardia);
-      requestAnimationFrame(irArriba); tam(); puntosHud(); despertar(true);
+      requestAnimationFrame(irArriba); tam(); tam2(); puntosHud(); despertar(true);
       setTimeout(function () { R.hidden = true; irArriba(); girarTablero(); puntosHud(); despertar(true); }, reduce ? 0 : 720);
     }
     function auto() { if (reduce) return abrir(); var de = v, t0 = performance.now(); (function p(t) { var e = Math.min(1, (t - t0) / 420); poner(de + (1 - de) * e); e < 1 ? requestAnimationFrame(p) : abrir(); })(t0); }
@@ -845,9 +965,9 @@ Firmado: Andrés, programador.</pre></div>
   })();
 
   /* Arranque */
-  tam(); $('res0').textContent = RES[0][0]; $('res1').textContent = RES[1][0]; $('rio').setAttribute('opacity', 0);
+  tam(); tam2(); $('res0').textContent = RES[0][0]; $('res1').textContent = RES[1][0]; $('rio').setAttribute('opacity', 0);
   despertar(true);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { tam(); puntosHud(); despertar(true); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { tam(); tam2(); puntosHud(); despertar(true); });
 })();
 </script>
 
